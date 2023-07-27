@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'edu.campusnum.visualsort'
-    mainClass = 'edu.campusnum.visualsort.HelloApplication'
+    mainClass = 'edu.campusnum.visualsort.VisualSortApplication'
 }
 
 javafx {

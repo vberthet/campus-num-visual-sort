@@ -7,6 +7,7 @@ import edu.campusnum.visualsort.sort.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
@@ -17,56 +18,30 @@ public class Visualiser {
     private int sleepTime = 100;
 
     public Visualiser() {
+        System.out.println("Hello world");
         JPanel panel;
         JButton q, w, e, r, t, y, sleepBtn;
         frame = new JFrame();
         frame.setSize(510, 390);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
 
         panel = new JPanel();
-        panel.setLayout(null);
+        GridLayout layout = new GridLayout(3,2);
+        layout.setHgap(10);
+        layout.setVgap(10);
+        panel.setLayout(layout);
         panel.setBackground(Color.WHITE);
 
-        q = new JButton("Bubble");
-        w = new JButton("Selection");
-        e = new JButton("Insertion");
-        r = new JButton("Quick");
-        t = new JButton("Merge");
-        y = new JButton("Heap");
-        sleepBtn = new JButton("Sleep Time");
+        JButton bubble = createSortBtn("Bubble", BubbleSort.class);
+        JButton selection = createSortBtn("Selection", SelectionSort.class);
+        JButton insertion = createSortBtn("Insertion", InsertionSort.class);
+        JButton shell = createSortBtn("Shell", ShellSort.class);
+        JButton quick = createSortBtn("Quick", QuickSort.class);
+        JButton merge = createSortBtn("Merge", MergeSort.class);
+        JButton heap = createSortBtn("Heap", HeapSort.class);
 
-        q.setBounds(100, 50, 100, 50);
-        w.setBounds(100, 150, 100, 50);
-        e.setBounds(300, 50, 100, 50);
-        r.setBounds(300, 150, 100, 50);
-        t.setBounds(100, 250, 100, 50);
-        sleepBtn.setBounds(300, 250, 100, 50);
 
-        q.addActionListener(v -> {
-            SortAlgorithm algo = new BubbleSort();
-            createVisualizer(algo);
-        });
-
-        w.addActionListener(v -> {
-            SortAlgorithm algo = new SelectionSort();
-            createVisualizer(algo);
-        });
-
-        e.addActionListener(v -> {
-            SortAlgorithm algo = new InsertionSort();
-            createVisualizer(algo);
-        });
-
-        r.addActionListener(v -> {
-            SortAlgorithm algo = new QuickSort();
-            createVisualizer(algo);
-        });
-
-        t.addActionListener(v -> {
-            SortAlgorithm algo = new MergeSort();
-            createVisualizer(algo);
-        });
+        sleepBtn = new JButton("Speed");
 
         sleepBtn.addActionListener(v -> {
             String sleepTime = JOptionPane.showInputDialog(frame, "Enter number number of millisecond to wait [1 to 1000]");
@@ -81,15 +56,17 @@ public class Visualiser {
             }
         });
 
-        panel.add(q);
-        panel.add(w);
-        panel.add(e);
-        panel.add(r);
-        panel.add(t);
-        panel.add(y);
+        panel.add(bubble);
+        panel.add(selection);
+        panel.add(insertion);
+        panel.add(shell);
+        panel.add(quick);
+        panel.add(merge);
+        panel.add(heap);
         panel.add(sleepBtn);
         panel.setBackground(new Color(33, 97, 140));
         frame.add(panel);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         length = JOptionPane.showInputDialog(frame, "Enter number of array elements[10 - 700].\nDefault elements are 270");
         try {
@@ -100,6 +77,22 @@ public class Visualiser {
         } catch (NumberFormatException p) {
             p.getStackTrace();
         }
+    }
+
+    private JButton createSortBtn(String label, Class<? extends SortAlgorithm> algoClass) {
+        JButton q;
+        q = new JButton(label);
+        q.addActionListener(v -> {
+            SortAlgorithm algo = null;
+            try {
+                algo = algoClass.getConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+            createVisualizer(algo);
+        });
+        return q;
     }
 
     private void createVisualizer(SortAlgorithm algo) {

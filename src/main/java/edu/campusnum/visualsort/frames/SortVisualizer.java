@@ -35,13 +35,13 @@ public class SortVisualizer extends JPanel {
         Color highlight = null;
         Color fillSlice = null;
         RunState state = getState().getState();
-        //if (state == RunState.Sorting) {
+        if (state == RunState.Sorting) {
             fill = new Color(0, 191, 255);
             fillSlice = new Color(0, 120, 200);
             highlight = new Color(128, 0, 128);
-        //} else if (state == RunState.Done) {
-        //    fill = new Color(34, 139, 37);
-        //}
+        } else if (state == RunState.Done) {
+            fill = new Color(34, 139, 37);
+        }
         colorBars(g2d, values, height, colWidth, x, fill, highlight, fillSlice);
         g2d.dispose();
     }

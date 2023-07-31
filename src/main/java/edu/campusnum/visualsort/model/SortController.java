@@ -4,6 +4,7 @@ import edu.campusnum.visualsort.sort.SortAlgorithm;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,9 +36,20 @@ public class SortController implements Runnable {
 
     @Override
     public void run() {
-        state.setState(RunState.Sorting);
-        this.algorithm.sort(state.getArray().slice(5,5));
-        state.setState(RunState.Done);
+        try {
+            state.setState(RunState.Sorting);
+            System.out.println("Starting sort using " + algorithm.getClass().getSimpleName() + " algorithm");
+            this.algorithm.sort(state.getArray());
+            System.out.println("Sort using " + algorithm.getClass().getSimpleName() + " is done");
+            state.setState(RunState.Done);
+            SwingUtilities.invokeLater(view::repaint);
+        } catch (Exception e) {
+            System.out.println("Sort using " + algorithm.getClass().getSimpleName() + " is failed");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Sorting using " + algorithm.getClass().getSimpleName() + " has failed", JOptionPane.ERROR_MESSAGE);
+            throw new RuntimeException(e);
+        }
     }
 
     public void update() {

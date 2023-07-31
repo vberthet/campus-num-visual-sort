@@ -18,7 +18,6 @@ public class Visualiser {
     private int sleepTime = 100;
 
     public Visualiser() {
-        System.out.println("Hello world");
         JPanel panel;
         JButton q, w, e, r, t, y, sleepBtn;
         frame = new JFrame();
@@ -42,7 +41,6 @@ public class Visualiser {
 
 
         sleepBtn = new JButton("Speed");
-
         sleepBtn.addActionListener(v -> {
             String sleepTime = JOptionPane.showInputDialog(frame, "Enter number number of millisecond to wait [1 to 1000]");
             try {
@@ -56,6 +54,8 @@ public class Visualiser {
             }
         });
 
+        JButton sizeButton = createChangeSizeButton();
+
         panel.add(bubble);
         panel.add(selection);
         panel.add(insertion);
@@ -64,18 +64,33 @@ public class Visualiser {
         panel.add(merge);
         panel.add(heap);
         panel.add(sleepBtn);
+        panel.add(sizeButton);
         panel.setBackground(new Color(33, 97, 140));
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        length = JOptionPane.showInputDialog(frame, "Enter number of array elements[10 - 700].\nDefault elements are 270");
+        askArraySize();
+    }
+
+    private JButton createChangeSizeButton() {
+        JButton sizeButton = new JButton("Size");
+
+        sizeButton.addActionListener( v -> {
+            askArraySize();
+        });
+        return sizeButton;
+    }
+
+    private void askArraySize() {
+        String length = JOptionPane.showInputDialog(frame, "Enter number of array elements[10 - 700].\nDefault elements are 270");
         try {
             while (Integer.parseInt(length) > 700 || Integer.parseInt(length) < 0) {
                 JOptionPane.showMessageDialog(frame, "Please choose the number in the given limit!");
                 length = JOptionPane.showInputDialog(frame, "Enter number of array elements[10 - 700].\nDefault elements are 50");
             }
+            Visualiser.length = length;
         } catch (NumberFormatException p) {
-            p.getStackTrace();
+            Visualiser.length = "270";
         }
     }
 

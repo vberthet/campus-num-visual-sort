@@ -14,14 +14,11 @@ public class InsertionSort  implements SortAlgorithm{
     public void sort(ObservableArray array) {
         int n = array.getLength();
         for (int i = 1; i < n;i++){
-            int temp = i;
             int j = i;
-            while (j > 0 && array.compare(j-1,temp).equals(Order.Lower)){
+            while (j > 0 && array.compare(j-1,j).equals(Order.Higher)){
                 array.swap(j,j-1);
-                j= j-1;
+                j--;
             }
-            int arrayJ = array.get(j);
-            arrayJ  = temp;
         }
     }
 }

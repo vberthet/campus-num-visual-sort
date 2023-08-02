@@ -121,6 +121,7 @@ public class SortState {
         @Override
         public Order compare(int left, int right) {
             setActive();
+            SortState.this.sortController.update();
             SortState.this.compareCounter++;
             if(this.get(left) == this.get(right)){
                 return Order.Equals;

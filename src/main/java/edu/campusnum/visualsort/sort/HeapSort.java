@@ -28,7 +28,7 @@ public class HeapSort implements SortAlgorithm{
     }
 
     public void ascend(ObservableArray array, int i){
-        if (array.get(i) > array.get(i/2)){
+        if (array.compare(i, i/2).equals(Order.Higher)){
             array.swap(i, i/2);
             ascend(array, i/2);
         }
@@ -36,14 +36,14 @@ public class HeapSort implements SortAlgorithm{
 
     public void descend(ObservableArray array, int element, int index){
         int formula = 2* index +1;
+        int max;
         if (formula < element){
-            int max;
-            if (array.compare(formula,2*index).equals(Order.Lower)){
+            if (array.compare(formula,2*index).equals(Order.Higher)){
                 max = formula;
             } else {
                 max = 2*index;
             }
-            if (array.compare(max,index).equals(Order.Lower)){
+            if (array.compare(max,index).equals(Order.Higher)){
                 array.swap(max, index);
                 descend(array, element, max);
             }

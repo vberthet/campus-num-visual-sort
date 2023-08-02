@@ -1,6 +1,7 @@
 package edu.campusnum.visualsort.sort;
 
 import edu.campusnum.visualsort.model.ObservableArray;
+import edu.campusnum.visualsort.model.Order;
 
 /**
  * Created by Web 74 all right reserved
@@ -15,7 +16,7 @@ public class SelectionSort implements SortAlgorithm{
         for (int i=0;i<n; i++){
             int min = i;
             for (int j=i+1;j<n;j++){
-                if (array.get(j) < array.get(min)){
+                if (array.compare(j,min).equals(Order.Lower)){
                     min = j;
                 }
             }

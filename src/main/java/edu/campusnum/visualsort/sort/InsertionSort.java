@@ -1,6 +1,7 @@
 package edu.campusnum.visualsort.sort;
 
 import edu.campusnum.visualsort.model.ObservableArray;
+import edu.campusnum.visualsort.model.Order;
 
 /**
  * Created by Web 74 all right reserved
@@ -13,9 +14,9 @@ public class InsertionSort  implements SortAlgorithm{
     public void sort(ObservableArray array) {
         int n = array.getLength();
         for (int i = 1; i < n;i++){
-            int temp = array.get(i);
+            int temp = i;
             int j = i;
-            while (j > 0 && array.get(j-1) > temp){
+            while (j > 0 && array.compare(j-1,temp).equals(Order.Lower)){
                 array.swap(j,j-1);
                 j= j-1;
             }
